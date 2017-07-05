@@ -62,9 +62,6 @@ FusionEKF::~FusionEKF() {}
 
 void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
-  if (measurement_pack.sensor_type_ != MeasurementPackage::RADAR)
-    return;
-
   VectorXd z = measurement_pack.raw_measurements_;
   /*****************************************************************************
    *  Initialization
@@ -107,6 +104,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   }
 
   float dt = (measurement_pack.timestamp_ - previous_timestamp_)/1000000.;
+  previous_timestamp_ = measurement_pack.timestamp_;
   /*****************************************************************************
    *  Prediction
    ****************************************************************************/
